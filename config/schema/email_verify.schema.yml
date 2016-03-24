@@ -1,0 +1,16 @@
+email_verify.settings:
+  type: mapping
+  label: Settings
+  mapping:
+    email_verify_active:
+      type: boolean
+    email_verify_user_registration:
+      type: boolean
+    email_verify_user_profile:
+      type: boolean
+    email_verify_site_contact:
+      type: boolean
+    email_verify_personal_contact:
+      type: boolean
+    email_verify_skip_mailbox:
+      type: boolean

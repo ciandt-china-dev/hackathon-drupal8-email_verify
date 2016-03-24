@@ -1,0 +1,14 @@
+email_verify.checkall:
+  path: /admin/people/email_verify
+  defaults:
+    _title: 'Email Verify'
+    _controller: '\Drupal\email_verify\Controller\DefaultController::email_verify_checkall'
+  requirements:
+    _custom_access: '\Drupal\email_verify\Controller\DefaultController::email_verify_access_people_email_verify'
+email_verify.admin_settings:
+  path: /admin/config/system/email_verify
+  defaults:
+    _title: 'Email Verify'
+    _form: \Drupal\email_verify\Form\EmailVerifyAdminForm
+  requirements:
+    _permission: 'administer site configuration'
