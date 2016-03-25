@@ -15,12 +15,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class EmailVerifyAdminForm extends ConfigFormBase {
 
-  protected $connect;
-
   /**
    * The email verify manager.
    *
-   * @var \Drupal\email_verify\BookManagerInterface
+   * @var \Drupal\email_verify\EmailVerifyManagerInterface
    */
   protected $emailVerifyManager;
 
@@ -57,6 +55,9 @@ class EmailVerifyAdminForm extends ConfigFormBase {
     return ['email_verify.settings'];
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function buildForm(array $form, FormStateInterface $form_state) {
     $config = $this->config('email_verify.settings');
 
@@ -64,7 +65,7 @@ class EmailVerifyAdminForm extends ConfigFormBase {
       '#type' => 'checkbox',
       '#title' => $this->t('Enable Email Verify to verify email adresses'),
       '#default_value' => $config->get('active'),
-      '#description' => $this->t('When enabled, Email Verify will check email addresses for validity.'),
+      '#description' => $this->t('When enabled, Email Verify will check full email addresses for validity. When unchecked, Email Verify will just check hosts.'),
     ];
 
     $form['email_verify'] = [
@@ -92,6 +93,7 @@ class EmailVerifyAdminForm extends ConfigFormBase {
         '#title' => $this->t('Site-wide contact'),
         '#default_value' => $config->get('site_contact'),
       ];
+
       $form['email_verify']['personal_contact'] = [
         '#type' => 'checkbox',
         '#title' => $this->t('Personal contact'),
@@ -110,7 +112,8 @@ class EmailVerifyAdminForm extends ConfigFormBase {
 
     if ($this->config('email_verify.settings')->get('active') !== 1 &&
       $form_state->getValue('active')) {
-      if (!$this->emailVerifyManager->checkHost('dreqiudieuwbdiuewbfdiuwupal.org')) {
+      $this->emailVerifyManager->checkHost('drupal.org');
+      if ($this->emailVerifyManager->getErrors()) {
         $form_state->setErrorByName('active', $this->t('Email Verify will test email domains but not mailboxes because port 25 is closed on your host\'s firewall'));
         \Drupal::logger('email_verify')->notice('Email Verify cannot test mailboxes because port 25 is closed.');
       }

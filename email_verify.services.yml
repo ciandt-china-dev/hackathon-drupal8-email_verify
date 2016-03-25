@@ -1,4 +1,4 @@
 services:
   email_verify.manager:
     class: Drupal\email_verify\EmailVerifyManager
-    arguments: ['@request_stack', '@config.factory']
+    arguments: ['@request_stack', '@config.factory', '@email.validator']

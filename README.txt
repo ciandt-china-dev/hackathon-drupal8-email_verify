@@ -1,17 +1,13 @@
 email_verify: Verifies thoroughly that email addresses are correctly entered
               during registration and account edition.
 
-Copyright: Daniel Bonniot <bonniot@users.sourceforge.net>
-License:   GNU GPL v2 or later
-
-
 Description
 -----------
 This module provides advanced email address checking. The core of
 Drupal, through the user module, only performs syntactical checking of
 user-entered email addresses, both during registration and account
-edition. This creates loads of problems when users incorrectly enter
-their address. First, they don't get any email from the site. If it
+edition. This creates problems when users incorrectly enter their address.
+First, they don't get any email from the site. If it
 happened during registration, they will not get their password. They
 will either bug the site admin or give up on the site altogether,
 both cases being a bad thing. Second, the site admin will get email
@@ -46,10 +42,10 @@ Installation
 ------------
 This module requires no database changes.
 
-Install like any other module: copy the whole email_verify directory 
-into the directory sites/all/modules/ or wherever you usually put contrib modules.
+Install like any other module: copy the whole email_verify directory
+into the modules directory or wherever you usually put contrib modules.
 
-You then need to go to admin/build/modules and check the Enabled box for
+You then need to go to admin/modules and check the Enabled box for
 email_verify, then save configuration. The module uses the hooks for
 user account validation. Therefore, email checking is automatically
 active from then on. Sit back, and enjoy getting ten times less of

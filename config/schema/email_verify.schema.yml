@@ -12,5 +12,3 @@ email_verify.settings:
       type: boolean
     email_verify_personal_contact:
       type: boolean
-    email_verify_skip_mailbox:
-      type: boolean

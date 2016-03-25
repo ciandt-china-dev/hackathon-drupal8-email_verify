@@ -7,7 +7,6 @@
 
 namespace Drupal\email_verify;
 
-
 /**
  * Provides an interface defining an email verify manager.
  */
@@ -20,7 +19,7 @@ interface EmailVerifyManagerInterface {
    * @param string $email
    *   The email address to check.
    *
-   * @return
+   * @return null
    *
    */
   public function checkEmail($email);
@@ -32,8 +31,33 @@ interface EmailVerifyManagerInterface {
    * @param string $host
    *   The host address to check.
    *
-   * @return
+   * @return null
    *
    */
   public function checkHost($host);
+
+  /**
+   * Make a connection to the mail server used by the host. This is found by
+   * checking MX records and connecting on port 25.
+   *
+   * @param string $host
+   *   The host address to connect to.
+   */
+  private function connect($host) {
+
+  /**
+   * Sets error messages.
+   *
+   * Protected function to set error messages.
+   */
+  protected function setError($error) {
+
+  /**
+   * Gets error messages.
+   *
+   * Public function to return the error messages.
+   *
+   * @return array
+   */
+  public function getErrors();
 }
