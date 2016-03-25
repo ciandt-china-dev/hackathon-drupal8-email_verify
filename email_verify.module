@@ -32,7 +32,7 @@ function email_verify_help($route_name, RouteMatchInterface $route_match) {
 //   );
 //   return $items;
 // }
-
+//
 /**
  * Access callback for the page at admin/people/email_verify.
  */
@@ -90,8 +90,7 @@ function email_verify_form_contact_message_personal_form_alter(&$form, &$form_st
  *   The form values which you may perform validation on.
  */
 function email_verify_edit_validate($form, &$form_state) {
-  if (!\Drupal::currentUser()->hasPermission('bypass email verification')) {
-  // } && $form_state['values']['op'] != t('Cancel account')) {.
+  if (!\Drupal::currentUser()->hasPermission('bypass email verification') && $form_state->getValue('op')->getUntranslatedString() != 'Cancel account') {
 
     $email = $form_state->getValue('mail');
     $host = Unicode::substr(strstr($email, '@'), 1);
