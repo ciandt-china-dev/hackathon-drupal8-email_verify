@@ -43,14 +43,14 @@ interface EmailVerifyManagerInterface {
    * @param string $host
    *   The host address to connect to.
    */
-  private function connect($host) {
+  private function connect($host);
 
   /**
    * Sets error messages.
    *
    * Protected function to set error messages.
    */
-  protected function setError($error) {
+  protected function setError($error);
 
   /**
    * Gets error messages.
@@ -60,4 +60,5 @@ interface EmailVerifyManagerInterface {
    * @return array
    */
   public function getErrors();
+
 }

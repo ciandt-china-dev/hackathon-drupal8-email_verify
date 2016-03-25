@@ -10,7 +10,11 @@ namespace Drupal\email_verify;
 use Egulias\EmailValidator\EmailValidator;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Drupal\Component\Utility\Unicode;
 
+/**
+ * Defines an email verify manager.
+ */
 class EmailVerifyManager {
 
   /**
@@ -47,9 +51,9 @@ class EmailVerifyManager {
   /**
    * Constructs a new EmailVerifyManager.
    *
-   * @param \Symfony\Component\HttpFoundation\RequestStack $requestStack
+   * @param \Symfony\Component\HttpFoundation\RequestStack $request_stack
    *   The request stack object.
-   * @param \Drupal\Core\Config\ConfigFactoryInterface $config
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The configuration factory object to use.
    * @param \Egulias\EmailValidator\EmailValidator $email_validator
    *   The email validator.
@@ -60,7 +64,9 @@ class EmailVerifyManager {
     $this->emailValidator = $email_validator;
   }
 
-
+  /**
+   * {@inheritdoc}
+   */
   public function checkEmail($email) {
 
     // Run a quick check to determine if the email appears valid.
@@ -69,6 +75,7 @@ class EmailVerifyManager {
       return;
     }
 
+    $host = Unicode::substr(strchr($email, '@'), 1);
     $this->connect($host);
 
     $mail_config = $this->configFactory->get('system.site');
@@ -96,13 +103,13 @@ class EmailVerifyManager {
       $localhost = 'localhost';
     }
 
-    fputs($this->connection, "HELO $localhost\r\n");
-    $out = fgets($this->connection, 1024);
-    fputs($this->connection, "MAIL FROM: <$from>\r\n");
+    fwrite($this->connection, "HELO $localhost\r\n");
+    fgets($this->connection, 1024);
+    fwrite($this->connection, "MAIL FROM: <$from>\r\n");
     $from = fgets($this->connection, 1024);
-    fputs($this->connection, "RCPT TO: <{$email}>\r\n");
+    fwrite($this->connection, "RCPT TO: <{$email}>\r\n");
     $to = fgets($this->connection, 1024);
-    fputs($this->connection, "QUIT\r\n");
+    fwrite($this->connection, "QUIT\r\n");
     fclose($this->connection);
 
     if (!preg_match("/^250/", $from)) {
@@ -126,7 +133,7 @@ class EmailVerifyManager {
     }
 
     if (!preg_match("/^250/", $to)) {
-      \Drupal::logger('email_verify')->notice('Rejected email address: @mail. Reason: @to', array('@mail' => $mail, '@to' => $to));
+      \Drupal::logger('email_verify')->notice('Rejected email address: @mail. Reason: @to', array('@mail' => $email, '@to' => $to));
       $this->setError(t('%mail is not a valid email address. Please check the spelling and try again or contact us for clarification.', array('%mail' => "$email")));
     }
   }
@@ -196,6 +203,5 @@ class EmailVerifyManager {
   public function getErrors() {
     return $this->errors;
   }
-
 
 }

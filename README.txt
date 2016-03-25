@@ -53,8 +53,8 @@ those email bounces and see more people succeed in registering to your
 site!
 
 If you see 'warning: fsockopen(): ...' output on your pages, make sure
-that you set 'Error reporting' on admin/settings/error-reporting to 'Write errors to
-the log'. You will still see such errors in the log. They indicate
+that you set 'Error reporting' on admin/settings/error-reporting to 'Write
+errors to the log'. You will still see such errors in the log. They indicate
 that an SMTP server did not respond (in which case the username was
 supposed valid).
 

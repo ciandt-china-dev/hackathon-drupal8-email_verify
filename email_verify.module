@@ -1,12 +1,12 @@
 <?php
 
-use Drupal\Core\Routing\RouteMatchInterface;
-use Drupal\Component\Utility\Unicode;
-
 /**
  * @file
- * Verifies thoroughly that email addresses are correctly entered
+ * Verifies thoroughly that email addresses are correctly entered.
  */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Component\Utility\Unicode;
 
 /**
  * Implements hook_help().
@@ -44,7 +44,7 @@ function email_verify_help($route_name, RouteMatchInterface $route_match) {
 // }
 
 /**
- * Implements hook_form_FORM_ID_alter() for the user_register form.
+ * Implements hook_form_FORM_ID_alter().
  */
 function email_verify_form_user_register_form_alter(&$form, $form_state, $form_id) {
   if (\Drupal::config('email_verify.settings')->get('user_registration')) {
@@ -53,7 +53,7 @@ function email_verify_form_user_register_form_alter(&$form, $form_state, $form_i
 }
 
 /**
- * Implements hook_form_FORM_ID_alter() for the user_form form.
+ * Implements hook_form_FORM_ID_alter().
  */
 function email_verify_form_user_form_alter(&$form, &$form_state, $form_id) {
   if (\Drupal::config('email_verify.settings')->get('user_profile')) {
@@ -62,7 +62,7 @@ function email_verify_form_user_form_alter(&$form, &$form_state, $form_id) {
 }
 
 /**
- * Implements hook_form_FORM_ID_alter() for the contact_site form.
+ * Implements hook_form_FORM_ID_alter().
  *
  * @TODO refactor this to take into account all site contact forms.
  */
@@ -73,7 +73,7 @@ function email_verify_form_contact_site_form_alter(&$form, &$form_state, $form_i
 }
 
 /**
- * Implements hook_form_FORM_ID_alter() for the contact_personal form.
+ * Implements hook_form_FORM_ID_alter().
  */
 function email_verify_form_contact_message_personal_form_alter(&$form, &$form_state, $form_id) {
   if (\Drupal::config('email_verify.settings')->get('personal_contact')) {
@@ -90,10 +90,11 @@ function email_verify_form_contact_message_personal_form_alter(&$form, &$form_st
  *   The form values which you may perform validation on.
  */
 function email_verify_edit_validate($form, &$form_state) {
-  if (!\Drupal::currentUser()->hasPermission('bypass email verification')) { //} && $form_state['values']['op'] != t('Cancel account')) {
+  if (!\Drupal::currentUser()->hasPermission('bypass email verification')) {
+  // } && $form_state['values']['op'] != t('Cancel account')) {.
 
     $email = $form_state->getValue('mail');
-    $host = Unicode::substr(strchr($email, '@'), 1);
+    $host = Unicode::substr(strstr($email, '@'), 1);
 
     $manager = \Drupal::getContainer()->get('email_verify.manager');
     $manager->checkHost($host);

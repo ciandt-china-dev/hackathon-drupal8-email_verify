@@ -13,6 +13,9 @@ use Drupal\email_verify\EmailVerifyManager;
 use Drupal\email_verify\EmailVerifyManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
+/**
+ * Provides a form for administering Email Verify configuration.
+ */
 class EmailVerifyAdminForm extends ConfigFormBase {
 
   /**
@@ -114,7 +117,7 @@ class EmailVerifyAdminForm extends ConfigFormBase {
       $form_state->getValue('active')) {
       $this->emailVerifyManager->checkHost('drupal.org');
       if ($this->emailVerifyManager->getErrors()) {
-        $form_state->setErrorByName('active', $this->t('Email Verify will test email domains but not mailboxes because port 25 is closed on your host\'s firewall'));
+        $form_state->setErrorByName('active', $this->t("Email Verify will test email domains but not mailboxes because port 25 is closed on your host's firewall"));
         \Drupal::logger('email_verify')->notice('Email Verify cannot test mailboxes because port 25 is closed.');
       }
     }
@@ -135,4 +138,5 @@ class EmailVerifyAdminForm extends ConfigFormBase {
 
     parent::submitForm($form, $form_state);
   }
+
 }
