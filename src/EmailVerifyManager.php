@@ -75,7 +75,7 @@ class EmailVerifyManager {
       return;
     }
 
-    $host = Unicode::substr(strchr($email, '@'), 1);
+    $host = Unicode::substr(strstr($email, '@'), 1);
     $this->connect($host);
 
     $mail_config = $this->configFactory->get('system.site');
